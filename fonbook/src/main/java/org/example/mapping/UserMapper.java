@@ -15,4 +15,8 @@ public interface UserMapper {
     User fromCreationModel(UserCreationModel userModel);
     UserDto toDto(User user);
     List<UserDto> toDto(Iterable<User> users);
+    default Long userToId(User user) {
+        return user != null ? user.getId() : null;
+    }
+    List<Long> usersToIds(Iterable<User> users);
 }

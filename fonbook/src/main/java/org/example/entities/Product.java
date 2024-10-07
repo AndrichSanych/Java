@@ -2,8 +2,13 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,6 +40,15 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @BatchSize(size = 20)
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductImage> images;
+    private Set<CartProduct> inUsersCart = new HashSet<>();
+
+    @BatchSize(size = 20)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<ProductImage> images = new HashSet<>();
+
+    @BatchSize(size = 20)
+    @ManyToMany(mappedBy = "favoriteProducts")
+    private Set<User> favoriteInUsers = new HashSet<>();
 }
